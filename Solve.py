@@ -1,5 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
+
 
 class EDO():
     def __init__(self,F: list, T: float, dt: float=0.5, kind: str='base'):

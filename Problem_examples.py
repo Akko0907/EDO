@@ -3,26 +3,32 @@ import matplotlib.pyplot as plt
 from Solve import EDO
 
 def Osc_harm():
+    
+    # Parameters, step and range of interval
     omega = 4.
-    F_list = [lambda y1,y2: -omega**2*y2, lambda y1,y2: y1]
-    h = 0.05
-    T = 4
+    dt = 0.05
+    T = 4.
+
+    # System to solve
+    F_list = [lambda v,x: -omega**2*x, lambda v,x: v]
+    
     # Initial conditions
     v0 = 0.
     x0 = 0.2
     init = np.array([v0,x0])
 
-    N = int(T//h)
-
     return omega, F_list, h, T, init
 
 def Epidem():
-    N = 150
-    T = 150
-    h = T/N
+    
+    # Parameters, step and range of interval
     beta = 1/2
     gama = 1/3
-    F_list = [lambda y1,y2,y3: -beta*y1*y2, lambda y1,y2,y3: beta*y1*y2-gama*y2, lambda y1,y2,y3: gama*y2 ]
+    h = 1
+    T = 150
+
+    # System to solve
+    F_list = [lambda s,j,r: -beta*s*j, lambda s,j,r: beta*s*j-gama*j, lambda s,j,r: gama*j ]
 
     # Initial conditions
     s = 1
@@ -33,12 +39,15 @@ def Epidem():
     return F_list,h,T,init
 
 def Terminal_V():
-    N = 50
-    T = 20
-    h = T/N
+    
+    # Parameters, step and range of interval
     B = 0.01
     g = 9.8
-    F_list = [lambda y1,y2: g-B*y1**2/2, lambda y1,y2: y1]
+    h = 0.4
+    T = 20
+
+    # System to solve
+    F_list = [lambda v,x: g-B*v**2/2, lambda v,x: v]
 
     # Initial conditions
     x0 = 100.
@@ -48,15 +57,18 @@ def Terminal_V():
     return F_list,h,T,init
 
 def Prob1():
-    F_list = [lambda y,t: -t*y, lambda y,t: 1]
+
+    # Parameters, step and range of interval
     h = 0.05
     T = 1
+
+    # System to solve
+    F_list = [lambda y,t: -t*y, lambda y,t: 1]
+
     # Initial conditions
     y0 = 1.
     t0 = 0.
     init = np.array([y0,t0])
-
-    N = int(T//h)
 
     return F_list,h,T,init
 
@@ -73,13 +85,8 @@ t,vr4,xr4 = oscilador_harmonico(init,'rk4')
 plt.plot(t,xs,label="Special")
 plt.plot(t,xb,label="Euler")
 plt.plot(t,xm,label="Modified Euler")
-plt.plot(t,xr,label="Runge Kutta 2")
+plt.plot(t,xr2,label="Runge Kutta 2")
 plt.plot(t,xr4,label="Runge Kutta 4")
-#plt.scatter(t,xs)
-#plt.scatter(t,xb)
-#plt.scatter(t,xm)
-#plt.scatter(t,xr)
-#plt.scatter(t,xr4)
 plt.plot(t,0.2*np.cos(omega*t),label="Exact Solution")
 plt.legend()
 plt.show()
